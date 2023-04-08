@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.employee.Entity.Employee;
 import com.employee.Service.EmpService;
 import com.employee.dto.EmployeeDto;
+import com.employee.exception.ResourceNotFoundException;
 import com.employee.repo.EmployeeRepo;
 @Service
 public class ServiceImpl implements EmpService {
@@ -34,7 +35,7 @@ public class ServiceImpl implements EmpService {
 	//2 update employee  method
 	@Override
 	public EmployeeDto updateEmployee(Integer empId, EmployeeDto empDto) {
-		Employee emp=this.empRepo.findById(empId).orElse(null);
+		Employee emp=this.empRepo.findById(empId).orElseThrow(()-> new ResourceNotFoundException("Employee", "Id", empId));
 		if(emp!=null)
 		{
 			emp.setName(empDto.getName());
@@ -59,7 +60,7 @@ public class ServiceImpl implements EmpService {
 	//4 Find employee by id
 	@Override
 	public EmployeeDto findEmpById(Integer empId) {
-		Employee emp=this.empRepo.findById(empId).orElse(null);
+		Employee emp=this.empRepo.findById(empId).orElseThrow(()->new ResourceNotFoundException("Employee", "Id", empId));
 		if(emp!=null)
 		{
 			return this.modelMapper.map(emp, EmployeeDto.class);
@@ -95,7 +96,7 @@ public class ServiceImpl implements EmpService {
 	//7 Delete employee
 	@Override
 	public String deleteEmp(Integer empId) {
-		Employee emp=this.empRepo.findById(empId).orElse(null);
+		Employee emp=this.empRepo.findById(empId).orElseThrow(()->new ResourceNotFoundException("Employee", "Id", empId));
 		if(emp!=null)
 		{
 			this.empRepo.deleteById(empId);

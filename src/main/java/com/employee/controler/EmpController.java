@@ -27,7 +27,7 @@ public class EmpController {
 	private EmpService empService;
 	
 	//Welcome api for testing 
-	@RequestMapping("/welcome")
+	@RequestMapping("/")
 	public String welcome()
 	{
 		return "Welcome to emp portal";
